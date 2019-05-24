@@ -1,18 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>db_pool – DBAPI 2 database connection pooling &#8212; Eventlet 0.24.1 documentation</title>
+    <meta charset="utf-8" />
+    <title>db_pool – DBAPI 2 database connection pooling &#8212; Eventlet 0.25.0 documentation</title>
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="event – Cross-greenthread primitive" href="event.html" />
@@ -33,7 +34,7 @@
         <li class="right" >
           <a href="debug.html" title="debug – Debugging tools for Eventlet"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Eventlet 0.24.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Eventlet 0.25.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" accesskey="U">Module Reference</a> &#187;</li> 
       </ul>
     </div>  
@@ -69,10 +70,10 @@
 <h2>Constructor Arguments<a class="headerlink" href="#constructor-arguments" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the database credentials, there are a bunch of keyword constructor arguments to the ConnectionPool that are useful.</p>
 <ul class="simple">
-<li>min_size, max_size : The normal Pool arguments.  max_size is the most important constructor argument – it determines the number of concurrent connections can be open to the destination database.  min_size is not very useful.</li>
-<li>max_idle : Connections are only allowed to remain unused in the pool for a limited amount of time.  An asynchronous timer periodically wakes up and closes any connections in the pool that have been idle for longer than they are supposed to be.  Without this parameter, the pool would tend to have a ‘high-water mark’, where the number of connections open at a given time corresponds to the peak historical demand.  This number only has effect on the connections in the pool itself – if you take a connection out of the pool, you can hold on to it for as long as you want.  If this is set to 0, every connection is closed upon its return to the pool.</li>
-<li>max_age : The lifespan of a connection.  This works much like max_idle, but the timer is measured from the connection’s creation time, and is tracked throughout the connection’s life.  This means that if you take a connection out of the pool and hold on to it for some lengthy operation that exceeds max_age, upon putting the connection back in to the pool, it will be closed.  Like max_idle, max_age will not close connections that are taken out of the pool, and, if set to 0, will cause every connection to be closed when put back in the pool.</li>
-<li>connect_timeout : How long to wait before raising an exception on connect().  If the database module’s connect() method takes too long, it raises a ConnectTimeout exception from the get() method on the pool.</li>
+<li><p>min_size, max_size : The normal Pool arguments.  max_size is the most important constructor argument – it determines the number of concurrent connections can be open to the destination database.  min_size is not very useful.</p></li>
+<li><p>max_idle : Connections are only allowed to remain unused in the pool for a limited amount of time.  An asynchronous timer periodically wakes up and closes any connections in the pool that have been idle for longer than they are supposed to be.  Without this parameter, the pool would tend to have a ‘high-water mark’, where the number of connections open at a given time corresponds to the peak historical demand.  This number only has effect on the connections in the pool itself – if you take a connection out of the pool, you can hold on to it for as long as you want.  If this is set to 0, every connection is closed upon its return to the pool.</p></li>
+<li><p>max_age : The lifespan of a connection.  This works much like max_idle, but the timer is measured from the connection’s creation time, and is tracked throughout the connection’s life.  This means that if you take a connection out of the pool and hold on to it for some lengthy operation that exceeds max_age, upon putting the connection back in to the pool, it will be closed.  Like max_idle, max_age will not close connections that are taken out of the pool, and, if set to 0, will cause every connection to be closed when put back in the pool.</p></li>
+<li><p>connect_timeout : How long to wait before raising an exception on connect().  If the database module’s connect() method takes too long, it raises a ConnectTimeout exception from the get() method on the pool.</p></li>
 </ul>
 </div>
 <div class="section" id="databaseconnector">
@@ -80,8 +81,8 @@
 <p>If you want to connect to multiple databases easily (and who doesn’t), the DatabaseConnector is for you.  It’s a pool of pools, containing a ConnectionPool for every host you connect to.</p>
 <p>The constructor arguments are:</p>
 <ul class="simple">
-<li>module : database module, e.g. MySQLdb.  This is simply passed through to the ConnectionPool.</li>
-<li>credentials : A dictionary, or dictionary-alike, mapping hostname to connection-argument-dictionary.  This is used for the constructors of the ConnectionPool objects.  Example:</li>
+<li><p>module : database module, e.g. MySQLdb.  This is simply passed through to the ConnectionPool.</p></li>
+<li><p>credentials : A dictionary, or dictionary-alike, mapping hostname to connection-argument-dictionary.  This is used for the constructors of the ConnectionPool objects.  Example:</p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dc</span> <span class="o">=</span> <span class="n">DatabaseConnector</span><span class="p">(</span><span class="n">MySQLdb</span><span class="p">,</span>
 <span class="gp">... </span>     <span class="p">{</span><span class="s1">&#39;db.internal.example.com&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="s1">&#39;internal&#39;</span><span class="p">,</span> <span class="s1">&#39;passwd&#39;</span><span class="p">:</span> <span class="s1">&#39;s33kr1t&#39;</span><span class="p">},</span>
@@ -90,7 +91,7 @@
 </div>
 <p>If the credentials contain a host named ‘default’, then the value for ‘default’ is used whenever trying to connect to a host that has no explicit entry in the database.  This is useful if there is some pool of hosts that share arguments.</p>
 <ul class="simple">
-<li>conn_pool : The connection pool class to use.  Defaults to db_pool.ConnectionPool.</li>
+<li><p>conn_pool : The connection pool class to use.  Defaults to db_pool.ConnectionPool.</p></li>
 </ul>
 <p>The rest of the arguments to the DatabaseConnector constructor are passed on to the ConnectionPool.</p>
 <p><em>Caveat: The DatabaseConnector is a bit unfinished, it only suits a subset of use cases.</em></p>
@@ -418,9 +419,9 @@ called a second time.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">db_pool</span></code> – DBAPI 2 database connection pooling</a><ul>
+<li><a class="reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">db_pool</span></code> – DBAPI 2 database connection pooling</a><ul>
 <li><a class="reference internal" href="#constructor-arguments">Constructor Arguments</a></li>
 <li><a class="reference internal" href="#databaseconnector">DatabaseConnector</a></li>
 </ul>
@@ -429,10 +430,10 @@ called a second time.</p>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="debug.html"
-                        title="previous chapter"><code class="docutils literal notranslate"><span class="pre">debug</span></code> – Debugging tools for Eventlet</a></p>
+                        title="previous chapter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">debug</span></code> – Debugging tools for Eventlet</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="event.html"
-                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">event</span></code> – Cross-greenthread primitive</a></p>
+                        title="next chapter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">event</span></code> – Cross-greenthread primitive</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -446,8 +447,6 @@ called a second time.</p>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -471,14 +470,14 @@ called a second time.</p>
         <li class="right" >
           <a href="debug.html" title="debug – Debugging tools for Eventlet"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">Eventlet 0.24.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Eventlet 0.25.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../modules.html" >Module Reference</a> &#187;</li> 
       </ul>
     </div>
 
     <div class="footer" role="contentinfo">
         &#169; Copyright 2005-2010, Eventlet Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
     </div>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
