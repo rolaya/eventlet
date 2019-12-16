@@ -21,6 +21,7 @@ from eventlet.greenio.base import (
 from eventlet.hubs import notify_close, notify_opened, IOClosed, trampoline
 from eventlet.support import get_errno
 import six
+import sys
 
 __all__ = ['_fileobject', 'GreenPipe']
 
@@ -32,6 +33,7 @@ _fileobject = _original_socket.SocketIO
 
 
 class GreenFileIO(_OriginalIOBase):
+    print (sys._getframe(0).f_code.co_name +"() processing: caller: " +sys._getframe(1).f_code.co_name +"()")
     def __init__(self, name, mode='r', closefd=True, opener=None):
         if isinstance(name, int):
             fileno = name
@@ -200,6 +202,7 @@ _open = FunctionType(
 
 def GreenPipe(name, mode="r", buffering=-1, encoding=None, errors=None,
               newline=None, closefd=True, opener=None):
+    print (sys._getframe(0).f_code.co_name +"() processing: caller: " +sys._getframe(1).f_code.co_name +"()")
     try:
         fileno = name.fileno()
     except AttributeError:

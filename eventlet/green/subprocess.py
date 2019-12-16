@@ -44,6 +44,7 @@ else:
 
 # This is the meat of this module, the green version of Popen.
 class Popen(subprocess_orig.Popen):
+    print (sys._getframe(0).f_code.co_name +"() processing: caller: " +sys._getframe(1).f_code.co_name +"()")
     """eventlet-friendly version of subprocess.Popen"""
     # We do not believe that Windows pipes support non-blocking I/O. At least,
     # the Python file objects stored on our base-class object have no
@@ -53,6 +54,7 @@ class Popen(subprocess_orig.Popen):
     # non-blocking I/O, don't even bother overriding it on Windows.
     if not mswindows:
         def __init__(self, args, bufsize=0, *argss, **kwds):
+            print (sys._getframe(0).f_code.co_name +"() processing: caller: " +sys._getframe(1).f_code.co_name +"()")
             self.args = args
             # Forward the call to base-class constructor
             subprocess_orig.Popen.__init__(self, args, 0, *argss, **kwds)
