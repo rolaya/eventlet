@@ -9,6 +9,7 @@ from eventlet.hubs import timer
 from eventlet.support import greenlets as greenlet
 import six
 import warnings
+from eventlet import debug
 
 __all__ = ['getcurrent', 'sleep', 'spawn', 'spawn_n',
            'kill',
@@ -18,6 +19,7 @@ getcurrent = greenlet.getcurrent
 
 
 def sleep(seconds=0):
+    debug.log_msg("sleeping for {0} seconds...".format(seconds))
     """Yield control to another eligible coroutine until at least *seconds* have
     elapsed.
 
